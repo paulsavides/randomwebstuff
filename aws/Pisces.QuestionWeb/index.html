@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta lang="en"/>
+        <title>Word Of The Day</title>
+        <script src="main.js"></script>
+        <link rel="stylesheet" href="styles.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"> 
+
+    </head>
+    <body>
+        <div id="main">
+            <div id="header">
+                <h1>Can you answer this?</h1>
+            </div>
+            <form id="questionForm">
+                <input type="hidden" value="" name="questionId" value=""/>
+                Question: <input type="text" name="questionText" placeholder="Fetching a question" readonly/> <br>
+                Answer: <input type="text" name="answer">
+            </form>
+            <div>
+                <button class="row my-fun-button" onclick="getRandomQuestion()">Get another question</button>
+            </div>
+            <div id="suggest-the-suggestion-box" class="look-like-a-link-or-whatever-idk give-me-some-space invisible" onclick="allowSuggest()">
+                Don't like the word of the day?
+            </div>
+            <div id="suggestion-box" class="give-me-some-space invisible">
+                <div>
+                    <h3>Alrighty then, how about you suggest something else.</h3>
+                </div>
+                <div>
+                    <form>
+                        <label>New Word of the Day</label>
+                        <input type="text" id="newwotd"/> </br><!-- how do you do this for real though lol -->
+                        <input type="button" class="give-me-some-space my-fun-button" onclick="suggestWotd(this.form.newwotd.value)" value="Submit"/>
+                    </form>
+                </div>
+                <div id="suggestion-result-box" class="invisible"></div>
+                <button type="button" id="burn-it-down" class="give-me-some-space my-fun-button invisible" onclick="reset()"/>I'm satisfied</button>
+            </div>
+        </div>
+    </body>
+</html>
