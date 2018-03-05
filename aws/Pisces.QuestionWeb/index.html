@@ -17,11 +17,12 @@
             </div>
             <form id="questionForm">
                 <input type="hidden" value="" name="questionId" value=""/>
-                Question: <input type="text" name="questionText" placeholder="Fetching a question" readonly/> <br>
-                Answer: <input type="text" name="answer">
+                Question: <input name="questionText" placeholder="Fetching a question" readonly><br>
+                Answer: <input type="text" name="answer"> <br>
             </form>
-            <div>
-                <button class="row my-fun-button" onclick="getRandomQuestion()">Get another question</button>
+            <div class="row give-me-some-space">
+                <button class="my-fun-button" onClick="verifyAnswer()">Check your answer</button>
+                <button class="my-fun-button" onclick="getRandomQuestion()">Get another question</button>
             </div>
             <div id="suggest-the-suggestion-box" class="look-like-a-link-or-whatever-idk give-me-some-space invisible" onclick="allowSuggest()">
                 Don't like the word of the day?

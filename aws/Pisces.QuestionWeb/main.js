@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', getRandomQuestion, false);
 
-var urlBase = 'http://localhost:53418/api/'
+var urlBase = 'https://api.paulsavides.com/api/'
 
 function getRandomQuestion() {
     runXhttpReq(setNewQuestion, 'Question/Random', 'GET')
@@ -11,6 +11,24 @@ function setNewQuestion(questionData) {
     form["questionId"].value = questionData.QuestionId;
     form["questionText"].value = questionData.QuestionText;
     form["answer"].value = "";
+}
+
+function verifyAnswer() {
+    var form = document.forms["questionForm"];
+    let qid = form["questionId"].value;
+    let answer = form["answer"].value;
+
+    if (qid !== undefined && answer !== undefined && answer !== "") {
+        runXhttpReq(checkAnswer, 'Question/' + qid + '/Answer?answer=' + answer, 'GET');
+    }
+}
+
+function checkAnswer(answerData) {
+    if (answerData.Correct) {
+        alert('ya got it right');
+    } else {
+        alert('its an easy one think about it');
+    }
 }
 
 function getWotd() {
@@ -97,11 +115,11 @@ function runXhttpReq(callback, url, method, body) {
     }
 
     xhttp.open(method, urlBase + url, true)
+    xhttp.setRequestHeader("Content-Type", "application/json")
     
     // send a little differently based on whether we want to include
     // a request body
     if (body !== undefined) {
-        xhttp.setRequestHeader("Content-Type", "application/json")
         xhttp.send(JSON.stringify(body))
     } else {
         xhttp.send()
