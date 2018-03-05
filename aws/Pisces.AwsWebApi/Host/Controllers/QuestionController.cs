@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Pisces.AwsWebApi.Data.Context;
 using Pisces.AwsWebApi.Data.Factory;
 using Pisces.AwsWebApi.Host.Models;
 
@@ -91,6 +90,33 @@ namespace Pisces.AwsWebApi.Host.Controllers
           QuestionHint = dto.QuestionHint,
           QuestionId = dto.QuestionId
         });
+    }
+
+    [ResponseType(typeof(QuestionWithHintModel))]
+    [Route("{id}/Hint")]
+    [HttpGet]
+    public HttpResponseMessage GetQuestionHint(int id)
+    {
+      QuestionWithHintModel questionHint = null;
+
+      using (var ctx = _contextFactory.CreateContext())
+      {
+        var questionDto = ctx.Questions.Find(id);
+
+        if (questionDto != null)
+        {
+          questionHint = new QuestionWithHintModel
+          {
+            QuestionId = questionDto.QuestionId,
+            QuestionHint = questionDto.QuestionHint,
+            QuestionText = questionDto.QuestionText
+          };
+        }
+      }
+
+      return questionHint == null
+        ? Request.CreateResponse(HttpStatusCode.NotFound, new SimpleMessageResponseModel($"No question with id {id} found."))
+        : Request.CreateResponse(HttpStatusCode.OK, questionHint);
     }
 
     [ResponseType(typeof(AnswerResultModel))]
