@@ -2,12 +2,43 @@ body {
     font-family: 'Open Sans';
 }
 
-#main {
+.flexible-container {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     padding: 5px;
+    max-width: 800px;
+    margin: auto;
+}
+
+#topbar {
+    align-self: left;
+    overflow: hidden;
+}
+
+.shadowy {
+    border-radius: 2px;
+    margin: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+#user-widget {
+    float: left;
+    width: 70px;
+    height: 70px;
+    padding: 1px;
+}
+
+#logout-button {
+    margin: auto;
+    float: right;
+}
+
+#user-image {
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
 }
 
 .my-fun-button {
@@ -22,11 +53,6 @@ body {
 .my-fun-button:hover {
     background-color: #88c7c9;
     cursor: pointer;
-}
-
-#wotd {
-    font-family: 'Pacifico';
-    font-size: 30px;
 }
 
 #header > h1 {
@@ -52,11 +78,11 @@ body {
 
 .look-like-a-link-or-whatever-idk {
     color: blue;
-    text-decoration: underline;
 }
 
 .look-like-a-link-or-whatever-idk:hover {
     cursor: pointer;
+    text-decoration: underline;
 }
 
 /*

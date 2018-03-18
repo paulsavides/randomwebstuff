@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host", "Host\Host.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{8D8C7B43-3AE2-4F09-943A-95771F034CBF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleAuth", "GoogleAuth\GoogleAuth.csproj", "{F850976A-B78E-44C8-845D-9F5935B38671}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8D8C7B43-3AE2-4F09-943A-95771F034CBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D8C7B43-3AE2-4F09-943A-95771F034CBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D8C7B43-3AE2-4F09-943A-95771F034CBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F850976A-B78E-44C8-845D-9F5935B38671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F850976A-B78E-44C8-845D-9F5935B38671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F850976A-B78E-44C8-845D-9F5935B38671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F850976A-B78E-44C8-845D-9F5935B38671}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

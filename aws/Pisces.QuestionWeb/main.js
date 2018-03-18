@@ -2,6 +2,40 @@ document.addEventListener('DOMContentLoaded', getRandomQuestion, false);
 
 var urlBase = 'https://api.paulsavides.com/api/'
 
+/***********************
+        AUTH STUFF 
+************************/
+function onSignIn(googleUser) {
+    var token = googleUser.getAuthResponse().id_token;
+    runXhttpReq(signInSuccess, 'Auth', 'POST', {IdToken: token}, onSignOut);
+}
+
+function onSignOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(() => {
+        let questionPrompt = document.getElementById("question-prompt");
+        questionPrompt.innerText = "Can you answer this?";    
+        hide("user-widget");
+        hide("logout-button");
+        unHide("google-signin");
+    });
+}
+
+function signInSuccess(data) {
+    let imgWidget = document.getElementById("user-image");
+    imgWidget.src = data.PictureUrl;
+
+    let questionPrompt = document.getElementById("question-prompt");
+    questionPrompt.innerText = "Can you answer this " + data.GivenName + "?";
+
+    hide("google-signin");
+    unHide("user-widget");
+    unHide("logout-button");
+}
+
+/***********************
+      QUESTION STUFF 
+************************/
 function getRandomQuestion() {
     runXhttpReq(setNewQuestion, 'Question/Random', 'GET')
 }
@@ -31,70 +65,6 @@ function checkAnswer(answerData) {
     }
 }
 
-function getWotd() {
-    runXhttpReq(setWordOfTheDay, 'http://localhost:49541/api/wotd', 'GET')
-    checkShowAllowSuggest()
-}
-
-function setWordOfTheDay(wotd) {
-    var elem = document.getElementById("wotd")
-    elem.innerText = wotd
-}
-
-function suggestWotd(newWotd) {
-    runXhttpReq(suggestWotdCallback, 'http://localhost:49541/api/suggest?WordOfTheDay=' + newWotd, 'POST')
-}
-
-function suggestWotdCallback(response) {
-    var res = JSON.parse(response)
-    var coloration = res.success ? 'success' : 'error'
-    var str = '<h3>Status: <span class="' + coloration + '">'
-        + res.status + '</span></h3>' + res.comment
-    var elem = document.getElementById("suggestion-result-box")
-    elem.innerHTML = str
-
-    if (hidden("suggestion-result-box")) {
-        unHide("suggestion-result-box")
-    }
-
-    if (res.success) {
-        unHide("burn-it-down")
-    } else if (!hidden("burn-it-down")) {
-        hide("burn-it-down")
-    }
-
-}
-
-function checkShowAllowSuggest() {
-    if (++presses == thingThatCouldBeConfigurable) { // right? that's how ++var works i think
-        unHide("suggest-the-suggestion-box")
-    }
-}
-
-
-function reset() {
-    hide("burn-it-down")
-    hide("suggestion-result-box")
-    hide("suggestion-box")
-    hide("suggest-the-suggestion-box")
-
-    presses = 0
-}
-
-
-function allowSuggest() {
-    unHide("suggestion-box")
-}
-
-function disallowSuggest() {
-    hide("suggestion-box")
-}
-
-function hidden(id) {
-    var elem = document.getElementById(id)
-    return elem.classList.contains("invisible")
-}
-
 function hide(id) {
     var elem = document.getElementById(id)
     elem.classList.add("invisible")
@@ -106,11 +76,15 @@ function unHide(id) {
 }
 
 // Helper functions for xhttp stuff
-function runXhttpReq(callback, url, method, body) {
+function runXhttpReq(callback, url, method, body, errorCallback) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (validateXhttp(this)) {
             callback(JSON.parse(xhttp.response))
+        } else if (checkXhttpError(this)) {
+            if (errorCallback !== undefined) {
+                errorCallback()
+            }
         }
     }
 
@@ -127,5 +101,9 @@ function runXhttpReq(callback, url, method, body) {
 }
 
 function validateXhttp(xhttp) {
-    return xhttp.readyState == 4 && xhttp.status == 200
+    return xhttp.readyState === 4 && xhttp.status === 200
+}
+
+function checkXhttpError(xhttp) {
+    return xhttp.readyState === 4 && xhttp.status !== 200
 }
